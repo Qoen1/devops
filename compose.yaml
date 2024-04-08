@@ -1,37 +1,43 @@
 ﻿services:
   gateway:
+    container_name: gateway
+    hostname: "gateway"
     build:
       context: ./gateway
     ports:
       - 3001:3001
     environment:
-      - IMAGE_SERVICE_PORT = 'https://localhost:3002'
-      - MESSAGE_SERVICE_PORT = 'https://localhost:3003'
-      - PORT = '3001'
+      - IMAGE_SERVICE_PORT=https://localhost:3002
+      - MESSAGE_SERVICE_PORT=https://localhost:3003
+      - PORT=3001
     depends_on:
       - mongo-express
       - rabbitmq
   imageservice:
+    container_name: imageService
+    hostname: "imageService"
     build:
       context: ./imageService
     ports:
       - 3002:3002
     environment:
-      - DB_URL = 'mongodb://localhost:27017/imageService'
-      - RABBIT_URL = 'amqp://localhost:5672'
-      - PORT = '3002'
+      - DB_URL=mongodb://mongo:27017/imageService
+      - RABBIT_URL=amqp://rabbitmq:5672
+      - PORT=3002
     depends_on:
       - mongo-express
       - rabbitmq
   messageservice:
+    container_name: messageService
+    hostname: "messageService"
     build:
       context: ./messageService
     ports:
       - 3003:3003
     environment:
-      - DB_URL = 'mongodb://localhost:27017/messageService'
-      - RABBIT_URL = 'amqp://localhost:5672'
-      - PORT = '3003'
+      - DB_URL=mongodb://mongo:27017/messageService
+      - RABBIT_URL=amqp://rabbitmq:5672
+      - PORT=3003
     depends_on:
       - mongo-express
       - rabbitmq
@@ -41,7 +47,7 @@
     hostname: "mongo"
     restart: always
     ports:
-      - 6942:27017
+      - 27017:27017
   rabbitmq:
     image: rabbitmq:latest
     container_name: rabbitmq
