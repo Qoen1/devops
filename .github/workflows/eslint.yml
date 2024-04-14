@@ -22,13 +22,13 @@ jobs:
 
       - name: Install dependencies and run ESLint in MessageService
         run: |
-          cd MessageService
+          cd messageService
           npm install
           npx eslint .
 
       - name: Install dependencies and run ESLint in ImageService
         run: |
-          cd ImageService
+          cd imageService
           npm install
           npx eslint .
 
