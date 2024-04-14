@@ -1,0 +1,39 @@
+name: ESLint Check
+
+on:
+  pull_request:
+    branches:
+      - master
+      - main
+
+jobs:
+  lint:
+    name: Run ESLint in Services
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies and run ESLint in MessageService
+        run: |
+          cd MessageService
+          npm install
+          npx eslint .
+
+      - name: Install dependencies and run ESLint in ImageService
+        run: |
+          cd ImageService
+          npm install
+          npx eslint .
+
+      - name: Install dependencies and run ESLint in gateway
+        run: |
+          cd gateway
+          npm install
+          npx eslint .
