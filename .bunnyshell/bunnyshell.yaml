@@ -1,7 +1,7 @@
 ﻿kind: Environment
 name: preview
 type: primary
-urlHandle: UwU
+urlHandle: yeetusdeletus
 components:
   -
     kind: Application
