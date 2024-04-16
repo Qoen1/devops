@@ -1,0 +1,2 @@
+﻿[//]: # ([![AuthService tests]&#40;https://github.com/Qoen1/websDevops/actions/workflows/authServiceTests.yml/badge.svg&#41;]&#40;https://github.com/Qoen1/websDevops/actions/workflows/authServiceTests.yml&#41;)
+[![gateway tests](https://github.com/Qoen1/devops/actions/workflows/gatewayTests.yml/badge.svg)](https://github.com/Qoen1/devops/actions/workflows/gatewayTests.yml/)
