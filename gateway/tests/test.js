@@ -5,7 +5,7 @@ const app = require('../app')
 describe('Get response', () => {  
   it('should get a response', async () => {
     const response = await request(app).get('/yeet')
-    expect(response.status).toBe(200)
-    expect(response.text).toBe('YEETT')
+    await expect(response.status).toBe(200)
+    await expect(response.text).toBe('YEETT')
   });
 });
