@@ -28,7 +28,7 @@ amqp.connect(RABBIT_URL, {resubscribe: false}).then(x => console.log(`connected 
 //routes
 app.use(metrics_middleware)
 app.get('/yeet', (request, response) => {
-    response.send('YEETT')
+    response.send('YEETTT')
 })
 
 //end routes
