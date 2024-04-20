@@ -1,7 +1,7 @@
 ﻿kind: Environment
 name: preview
 type: primary
-urlHandle: UwU
+urlHandle: yeetusdeletus
 components:
   -
     kind: Application
@@ -25,23 +25,6 @@ components:
         hostname: 'gateway-{{ env.base_domain }}'
         path: /
         servicePort: 3001
-  -
-    kind: Application
-    name: grafana
-    gitRepo: 'https://github.com/Qoen1/devops.git'
-    gitBranch: main
-    gitApplicationPath: grafana
-    dockerCompose:
-      build:
-        context: ./grafana
-        dockerfile: Dockerfile
-      ports:
-        - '1234:3000/tcp'
-    hosts:
-      -
-        hostname: 'grafana-{{ env.base_domain }}'
-        path: /
-        servicePort: 1234
   -
     kind: Application
     name: imageservice
@@ -101,22 +84,6 @@ components:
       ports:
         - '27017:27017/tcp'
       restart: always
-  -
-    kind: Service
-    name: prometheus
-    dockerCompose:
-      command:
-        - '--web.enable-lifecycle'
-        - '--config.file=/etc/prometheus/prometheus.yml'
-      hostname: prometheus
-      image: 'prom/prometheus:latest'
-      ports:
-        - '9090:9090/tcp'
-    hosts:
-      -
-        hostname: 'prometheus-{{ env.base_domain }}'
-        path: /
-        servicePort: 9090
   -
     kind: Service
     name: rabbitmq
