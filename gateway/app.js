@@ -16,14 +16,10 @@ const metrics_middleware = promBundle({
     }
 })
 
-app.use(jsonParser)
 
 //routes
 app.use(metrics_middleware)
-app.get('/yeet', (request, response) => {
-    response.send('YEETT')
-})
-
+app.use('/', require('./routes'))
 //end routes
 
 //error handler

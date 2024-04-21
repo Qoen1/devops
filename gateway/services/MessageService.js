@@ -1,22 +1,32 @@
 const axios = require('axios')
 require('dotenv').config();
-const imageServiceUrl = process.env.MESSAGE_SERVICE_URL
+const imageServiceUrl = process.env.IMAGE_SERVICE_URL
+const messageServiceUrl = process.env.MESSAGE_SERVICE_URL
 
 class ImageService{
     GetMessage(id){
-        return new Promise((resolve, reject) => {
-            axios.get(imageServiceUrl + '/' + id, {responseType: 'arraybuffer'}).then(x => {
-                resolve(x)
-            }).catch(x => {
-                reject(x)
-            })
+        return new Promise(async (resolve, reject) => {
+            try{
+                let messageResponse = await axios.get(messageServiceUrl + '/' + id)
+                let imageResponse = await axios.get(imageServiceUrl + '/' + messageResponse.data.imageId, {responseType: 'arraybuffer'})
+
+                resolve({
+                    message: messageResponse.data.message,
+                    image: imageResponse.data.image
+                })
+            }catch(e){
+                reject(e)
+            }
         })
     }
 
     GetMessages(){
         return new Promise((resolve, reject) => {
-            axios.get(imageServiceUrl, {responseType: 'arraybuffer'}).then(x => {
-                resolve(x)
+            axios.get(messageServiceUrl).then(messageServiceResponse => {
+                axios.get(imageServiceUrl)
+
+            }).then(x => {
+
             }).catch(x => {
                 reject(x)
             })
@@ -25,23 +35,24 @@ class ImageService{
 
     CreateMessage(message, image) {
         return new Promise((resolve, reject) => {
-            axios.post(imageServiceUrl, {responseType: 'arraybuffer'}).then(x => {
-                const formData = new FormData()
-                const blob = new Blob([image.buffer], {type: image.mimetype})
+            const formData = new FormData()
                 formData.append('message', message)
+                
+            axios.post(messageServiceUrl, formData, {headers: {'Content-Type': 'multipart/form-data'}
+            }).then(x => {
                 if (image) {
+                    const blob = new Blob([image.buffer], {type: image.mimetype})
                     formData.append('image', blob, image.name)
+                    axios.post(targetimageurl, formData, {headers: {'Content-Type': 'multipart/form-data'}
+                    }).then(x => {
+                        resolve(x.data)
+                    }).catch(x => {
+                        reject(x)
+                    })
                 }
-
-                axios.post(targetimageurl, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }).then(x => {
+                else{
                     resolve(x.data)
-                }).catch(x => {
-                    reject(x)
-                })
+                }
             })
         })
     }

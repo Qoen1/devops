@@ -29,12 +29,12 @@ router.get('/:id/image', (request, result, next) => {
 
 router.post('/', upload.single('image'), (request, result, next) => {
     if(!request.body.message && !request.image){
-        result.status(400).send("no message or image was provided")
+        result.status(400).send("no message or image.js was provided")
     }
 
     let messageService = new MessageService()
     messageService.CreateMessage(request.body.message, request.image).then(x => {
-        result.send(response)
+        result.send(x)
     })
 })
 
