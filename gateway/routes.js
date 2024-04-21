@@ -23,7 +23,7 @@ router.get('/:id', (request, result, next) => {
 router.get('/:id/image', (request, result, next) => {
     let messageService = new MessageService()
     messageService.GetMessage(request.params.id).then(x => {
-        result.send(x.image)
+        result.type(x.imageType).send(x.image)
     })
 })
 

@@ -16,9 +16,8 @@ router.get('/', (request, result) => {
 
 router.get('/:id', (request, result)=> {
 
-    messageService.GetImage(request.params.id).then(image => {
-        result.contentType(image.imageType)
-        result.send(image.imageBuffer)
+    messageService.GetMessage(request.params.id).then(message => {
+        result.send(message)
     })
 })
 

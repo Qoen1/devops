@@ -9,6 +9,7 @@ class ImageService {
 
     GetImage (id) {
         return new Promise((resolve, reject) => {
+            console.log('getting image.js with id ' + id)
             SubmissionImage.findOne({_id: id}).then(result => {
                 if(result === undefined || result === null){
                     reject({

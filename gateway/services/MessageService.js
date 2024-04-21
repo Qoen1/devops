@@ -5,14 +5,18 @@ const messageServiceUrl = process.env.MESSAGE_SERVICE_URL
 
 class MessageService{
     GetMessage(id){
+        console.log(`getting message ${id}`)
         return new Promise(async (resolve, reject) => {
             try{
                 let messageResponse = await axios.get(messageServiceUrl + '/' + id)
-                let imageResponse = await axios.get(imageServiceUrl + '/' + messageResponse.data.imageId, {responseType: 'arraybuffer'})
+                console.log(`got message:`)
+                console.log(messageResponse.data)
+                let imageResponse = await axios.get(imageServiceUrl + '/' + messageResponse.data.message.imageId, {responseType: 'arraybuffer'})
 
                 resolve({
+                    imageType: imageResponse.headers['content-type'],
                     message: messageResponse.data.message,
-                    image: imageResponse.data.image
+                    image: imageResponse.data
                 })
             }catch(e){
                 reject(e)
