@@ -7,12 +7,10 @@ const promBundle = require('express-prom-bundle');
 
 const PORT = process.env.PORT
 const DB_URL = process.env.DB_URL
-const RABBIT_URL = process.env.RABBIT_URL;
 
 mongoose.connect(DB_URL).then(x => console.log(`connected to database ${DB_URL}`))
 
 const app = express()
-const jsonParser = bodyParser.json()
 const metrics_middleware = promBundle({
     includePath: true,
     includeStatusCode: true,
@@ -21,8 +19,6 @@ const metrics_middleware = promBundle({
         collectDefaultMetrics: {}
     }
 })
-
-amqp.connect(RABBIT_URL, {resubscribe: false}).then(x => console.log(`connected to rabbitMQ ${RABBIT_URL}`))
 
 //routes
 app.use('/', require('./routes'))

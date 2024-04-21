@@ -31,9 +31,11 @@ router.post('/', upload.single('image'), (request, result, next) => {
     if(!request.body.message && !request.image){
         result.status(400).send("no message or image.js was provided")
     }
+    console.log(`adding a message`)
+    if(request.file) console.log('with an image!')
 
     let messageService = new MessageService()
-    messageService.CreateMessage(request.body.message, request.image).then(x => {
+    messageService.CreateMessage(request.body.message, request.file).then(x => {
         result.send(x)
     })
 })

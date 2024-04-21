@@ -1,12 +1,21 @@
 const Message = require('../models/message')
 
-class CompetitionService{
+class MessageService{
+    rabbitService
+
+    constructor(rabbitService){
+        this.rabbitService = rabbitService
+    }
+
     SaveMessage(file, fileType, message){
         return new Promise((resolve, reject) => {
             let newMessage = Message({
                 message: message
             });
             newMessage.save().then(data => {
+                if(file){
+                    this.rabbitService.NotifyMessageCreated(file, fileType, data._id)
+                }
                 resolve(data)
             });
         });
@@ -40,7 +49,8 @@ class CompetitionService{
     GetMessages() {
         return new Promise((resolve, reject) => {
             Message.find().then(messages => {
-                resolve({ status: 404, message: "No submissions found for the competition." })
+                resolve(messages)
+                // resolve({ status: 404, message: "No submissions found for the competition." })
             }).catch(error => {
                 reject({ status: 500, message: "Internal server error." })
             })
@@ -48,4 +58,4 @@ class CompetitionService{
     }
 }
 
-module.exports = CompetitionService
+module.exports = MessageService

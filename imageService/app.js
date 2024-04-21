@@ -22,11 +22,11 @@ const metrics_middleware = promBundle({
     }
 })
 
-amqp.connect(RABBIT_URL, {resubscribe: false}).then(x => console.log(`connected to rabbitMQ ${RABBIT_URL}`))
 
 app.use(jsonParser)
 
 //routes
+app.use('/', require('./routes'))
 app.use(metrics_middleware)
 app.get('/yeet', (request, response) => {
     response.send('YEETT')
